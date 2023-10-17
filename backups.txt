@@ -1,0 +1,50 @@
+<Directory "/home/bruno/Codes/pas-webbackend/php">
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+    Header set Access-Control-Allow-Headers "X-Requested-With, Content-Type, X-Token-Auth, Authorization"
+</Directory>
+
+
+
+		// fetch('http://localhost/new_voter.php', {
+		// 	method: 'POST',
+		// 	headers: {
+		// 		'Content-Type': 'application/json',
+		// 	},
+		// 	body: JSON.stringify({
+		// 		name: 'John Doe',
+		// 		registration_number: '123456',
+		// 	}),
+		// })
+		// 	.then((response) => {
+		// 		if (!response.ok) {
+		// 			throw new Error('Network response was not ok');
+		// 		}
+		// 		return response.json();
+		// 	})
+		// 	.then((data) => {
+		// 		console.log(data);
+		// 	})
+		// 	.catch((error) => console.error(error));
+		// fetch('/api', {
+		// 	method: 'POST',
+		// 	headers: {
+		// 		'Content-Type': 'application/json',
+		// 	},
+		// 	body: JSON.stringify({
+		// 		name,
+		// 		registration_number: registrationNumber,
+		// 	}),
+		// })
+		// 	.then((res) => res.json())
+		// 	.then((data) => {
+		// 		setMessage(data.message);
+		// 	})
+		// 	.catch((err) => {
+		// 		setMessage(err.message);
+		// 	});
+	};
