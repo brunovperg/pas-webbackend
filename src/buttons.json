@@ -1,0 +1,28 @@
+[
+	{
+		"name": "Registration",
+		"description": "Cadastros",
+		"contents": [
+			{
+				"name": "RegisterVoter",
+				"description": "Cadastrar Eleitor"
+			},
+			{
+				"name": "RegisterSlate",
+				"description": "Cadastrar Chapa"
+			}
+		]
+	},
+	{
+		"name": "ConsultSlates",
+		"description": "Consultar Chapas"
+	},
+	{
+		"name": "RegisterVote",
+		"description": "Votação"
+	},
+	{
+		"name": "TotalVotes",
+		"description": "Resultados"
+	}
+]

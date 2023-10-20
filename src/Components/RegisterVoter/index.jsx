@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import axios from 'axios';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -11,7 +12,7 @@ const Container = styled.div`
 const Title = styled.h2`
 	font-size: 2rem;
 	margin-bottom: 1rem;
-	color: #fff;
+	color: #000;
 `;
 
 const Form = styled.form`
@@ -25,6 +26,9 @@ const Form = styled.form`
 	border-radius: 1rem;
 	box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
 	align-items: flex-start;
+	@media (max-width: 487px) {
+		max-width: 90%;
+	}
 `;
 
 const Label = styled.label`
@@ -71,26 +75,30 @@ const Button = styled.button`
 const Message = styled.p`
 	font-size: 1.2rem;
 	margin-top: 1rem;
-	color: #fff;
+	color: #000;
 `;
 
 function RegisterVoter() {
-	const [name, setName] = useState('');
-	const [registrationNumber, setRegistrationNumber] = useState('');
+	const [name, setName] = useState(undefined);
+	const [registrationNumber, setRegistrationNumber] = useState(undefined);
 	const [message, setMessage] = useState('');
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		axios
-			.post('http://localhost:80/php/new_voter.php', {
-				name,
+			.post('http://php.test/new_voter.php', {
+				name: name,
 				registration_number: registrationNumber,
 			})
 			.then((response) => {
-				console.log(response.data);
-				setMessage('Eletor registrado com sucesso!');
-				setName('');
-				setRegistrationNumber('');
+				
+				{
+					response.data.success === true
+						? setMessage('Eleitor registrado com sucesso!') &
+						  setRegistrationNumber('') &
+						  setName('')
+						: setMessage('Erro ao registrar eleitor / Eleitor já cadastrado!');
+				}
 			})
 			.catch((error) => {
 				console.error(error);
@@ -120,7 +128,7 @@ function RegisterVoter() {
 						onChange={(e) => setRegistrationNumber(e.target.value)}
 					/>
 				</Label>
-				<Button type='submit'>Register</Button>
+				<Button type='submit'>Registrar</Button>
 			</Form>
 			{message && <Message>{message}</Message>}
 		</Container>

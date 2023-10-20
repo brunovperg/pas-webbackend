@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import axios from 'axios';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -11,7 +12,7 @@ const Container = styled.div`
 const Title = styled.h2`
 	font-size: 2rem;
 	margin-bottom: 1rem;
-	color: #fff;
+	color: #000;
 `;
 
 const Form = styled.form`
@@ -71,32 +72,42 @@ const Button = styled.button`
 const Message = styled.p`
 	font-size: 1.2rem;
 	margin-top: 1rem;
-	color: #FFF;
+	color: #000;
 `;
 
 function RegisterSlate() {
-	const [slateName, setSlateName] = useState('');
-	const [slateCode, setSlateCode] = useState('');
-	const [presidentName, setPresidentName] = useState('');
-	const [vicePresidentName, setVicePresidentName] = useState('');
+	const [slateName, setSlateName] = useState(undefined);
+	const [slateCode, setSlateCode] = useState(undefined);
+	const [presidentName, setPresidentName] = useState(undefined);
+	const [presidentRegistration, setPresidentRegistration] = useState(undefined);
+	const [vicePresidentName, setVicePresidentName] = useState(undefined);
+	const [vicePresidentRegistration, setvicePresidentRegistration] = useState(undefined);
 	const [message, setMessage] = useState('');
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		axios
-			.post('http://localhost:80/php/new_slate.php', {
-				name: slateName,
+			.post('http://php.test/new_slate.php', {
+				slate_name: slateName,
 				code: slateCode,
 				president: presidentName,
+				president_registration_number: presidentRegistration,
 				vice_president: vicePresidentName,
+				vice_president_registration_number: vicePresidentRegistration,
 			})
 			.then((response) => {
-				console.log(response.data);
-				setMessage('Chapa registrada com sucesso!');
-				setSlateName('');
-				setSlateCode('');
-				setPresidentName('');
-				setVicePresidentName('');
+				{
+					response.data.success === true
+						? 
+						  setMessage('Chapa registrada com sucesso!') &
+						  setSlateName('') &
+						  setSlateCode('') &
+						  setPresidentName('') &
+						  setPresidentRegistration('') &
+						  setVicePresidentName('') &
+						  setvicePresidentRegistration('')
+						: setMessage('Erro ao registrar a chapa / Chapa já cadastrada');
+				}
 			})
 			.catch((error) => {
 				console.error(error);
@@ -108,40 +119,58 @@ function RegisterSlate() {
 		<Container>
 			<Title>Registro de Chapa Eleitoral</Title>
 			<Form onSubmit={handleSubmit}>
-				<Label htmlFor="slateName">
+				<Label htmlFor='slateName'>
 					Nome da Chapa:
 					<Input
-						id="slateName"
+						id='slateName'
 						type='text'
 						value={slateName}
 						onChange={(e) => setSlateName(e.target.value)}
 					/>
 				</Label>
-				<Label htmlFor="slateCode">
-					Código da Chapaaaaaaaaaaaaa:
+				<Label htmlFor='slateCode'>
+					Código da Chapa:
 					<Input
-						id="slateCode"
+						id='slateCode'
 						type='text'
 						value={slateCode}
 						onChange={(e) => setSlateCode(e.target.value)}
 					/>
 				</Label>
-				<Label htmlFor="presidentName">
+				<Label htmlFor='presidentName'>
 					Presidente:
 					<Input
-						id="presidentName"
+						id='presidentName'
 						type='text'
 						value={presidentName}
 						onChange={(e) => setPresidentName(e.target.value)}
 					/>
 				</Label>
-				<Label htmlFor="vicePresidentName">
+				<Label htmlFor='presidentRegistration'>
+					Matrícula do Presidente:
+					<Input
+						id='presidentRegistration'
+						type='text'
+						value={presidentRegistration}
+						onChange={(e) => setPresidentRegistration(e.target.value)}
+					/>
+				</Label>
+				<Label htmlFor='vicePresidentName'>
 					Vice-Presidente:
 					<Input
-						id="vicePresidentName"
+						id='vicePresidentName'
 						type='text'
 						value={vicePresidentName}
 						onChange={(e) => setVicePresidentName(e.target.value)}
+					/>
+				</Label>
+				<Label htmlFor='vicePresidentRegistration'>
+					Matrícula do Vice-Presidente:
+					<Input
+						id='vicePresidentRegistration'
+						type='text'
+						value={vicePresidentRegistration}
+						onChange={(e) => setvicePresidentRegistration(e.target.value)}
 					/>
 				</Label>
 				<Button type='submit'>Registrar</Button>

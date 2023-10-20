@@ -1,5 +1,6 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -11,7 +12,7 @@ const Container = styled.div`
 const Title = styled.h2`
 	font-size: 2rem;
 	margin-bottom: 1rem;
-	color: #fff;
+	color: #000;
 `;
 
 const Form = styled.form`
@@ -89,45 +90,48 @@ const Button = styled.button`
 const Message = styled.p`
 	font-size: 1.2rem;
 	margin-top: 1rem;
-	color: #FFF;
+	color: #000;
 `;
 
 function RegisterVote() {
-	const [registrationNumber, setRegistrationNumber] = useState('');
-	const [selectedSlate, setSelectedSlate] = useState('');
-	const [slates, setSlates] = useState([]);
+	const [registrationNumber, setRegistrationNumber] = useState(undefined);
+	const [selectedSlate, setSelectedSlate] = useState(undefined);
 	const [message, setMessage] = useState('');
-
-	useEffect(() => {
-		axios
-			.get('http://localhost:80/php/get_slates.php')
-			.then((response) => {
-				console.log(response.data);
-				setSlates(response.data);
-			})
-			.catch((error) => {
-				console.error(error);
-			});
-	}, []);
+	const [slates, setSlates] = useState([]);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		axios
-			.post('http://localhost:80/php/new_vote.php', {
+			.post('http://php.test/new_vote.php', {
 				registration_number: registrationNumber,
 				slate_code: selectedSlate,
 			})
 			.then((response) => {
 				console.log(response.data);
-				setMessage('Voto registrado com sucesso!');
-				setRegistrationNumber('');
-				setSelectedSlate('');
+				{
+					response.data.success === true
+						? setMessage('Voto registrado com sucesso!') &
+						  setRegistrationNumber('') &
+						  setSelectedSlate('')
+						: setMessage('Erro ao registrar o voto / Eleitor já votou!');
+				}
 			})
 			.catch((error) => {
 				console.error(error);
 				setMessage('Erro ao registrar o voto / Eleitor já votou!');
 			});
 	};
+
+	useEffect(() => {
+		axios
+			.get('http://php.test/get_slates.php')
+			.then((response) => {
+				response.data.success !== false ? setSlates(response.data) : '';
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}, []);
 
 	return (
 		<Container>
@@ -145,16 +149,18 @@ function RegisterVote() {
 					Chapa:
 					<Select
 						value={selectedSlate}
-						onChange={(e) => setSelectedSlate(e.target.value) & console.log(selectedSlate) }>
+						onChange={(e) => setSelectedSlate(e.target.value)}>
 						<Option value=''>Selecione uma chapa</Option>
-						{slates.map((slate) => (
-							<Option key={slate.code} value={slate.code}>
-								{slate.name} - {slate.code}
-							</Option>
-						))}
+						{slates
+							.sort((a, b) => a.code.localeCompare(b.code))
+							.map((slate) => (
+								<Option key={slate.code} value={slate.code}>
+									{slate.code} - {slate.slate_name}
+								</Option>
+							))}
 					</Select>
 				</Label>
-				<Button type='submit'>Registrar</Button>
+				<Button type='submit'>VOTAR</Button>
 			</Form>
 			{message && <Message>{message}</Message>}
 		</Container>

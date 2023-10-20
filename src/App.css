@@ -1,10 +1,12 @@
+
 html {
+	font-family: 'Roboto', sans-serif;
 	line-height: 1.15;
 	-webkit-text-size-adjust: 100%;
+	background-color: #fff;
 	body {
 		margin: 0;
 		min-height: 100vh;
-		background-color: #1a1a1a;
 	}
 	main {
 		display: block;
