@@ -1,0 +1,36 @@
+CREATE TABLE
+    IF NOT EXISTS electoral_slate (
+        id int NOT NULL AUTO_INCREMENT,
+        slate_name varchar(255) NOT NULL,
+        code varchar(255) NOT NULL,
+        president varchar(255) NOT NULL,
+        president_registration_number VARCHAR(255) NOT NULL,
+        vice_president varchar(255) NOT NULL,
+        vice_president_registration_number VARCHAR(255) NOT NULL,
+        PRIMARY KEY (id),
+        UNIQUE(
+            code,
+            president_registration_number,
+            vice_president_registration_number
+        )
+    );
+
+CREATE TABLE
+    IF NOT EXISTS voter (
+        id int NOT NULL AUTO_INCREMENT,
+        name varchar(255) NOT NULL,
+        registration_number VARCHAR(255) NOT NULL,
+        PRIMARY KEY (id),
+        UNIQUE (registration_number)
+    );
+
+CREATE TABLE
+    IF NOT EXISTS vote (
+        id int NOT NULL AUTO_INCREMENT,
+        voter_id int NOT NULL,
+        slate_id int NOT NULL,
+        PRIMARY KEY (id),
+        FOREIGN KEY (voter_id) REFERENCES voter(id) ON DELETE CASCADE,
+        FOREIGN KEY (slate_id) REFERENCES electoral_slate(id) ON DELETE CASCADE,
+        UNIQUE (voter_id)
+    );
